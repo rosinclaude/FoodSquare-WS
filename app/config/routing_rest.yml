@@ -1,0 +1,5 @@
+Rest_Common : 
+  type : rest
+  resource: "@FoodsquareCommonBundle/Resources/config/routing.yml"
+  
+

@@ -1,0 +1,16 @@
+users : 
+  type: rest
+  resource:     "FoodsquareCommonBundle:User"
+  name_prefix:  api_
+  
+  
+ratecomment : 
+  type: rest
+  resource:     "FoodsquareCommonBundle:RateComment"
+  name_prefix:  api_
+  
+restaurant : 
+  type: rest
+  resource:     "FoodsquareCommonBundle:Restaurant"
+  name_prefix:  api_
+

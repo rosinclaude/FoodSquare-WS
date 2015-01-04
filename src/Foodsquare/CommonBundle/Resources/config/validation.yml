@@ -1,0 +1,7 @@
+Foodsquare\CommonBundle\Entity\Users:
+   properties:
+        email:
+            - Email:
+                message: Cet email "{{ value }}" n\'est pas un email valide.
+                checkMX: true
+                

@@ -1,0 +1,4 @@
+services:
+#    foodsquare_common.example:
+#        class: Foodsquare\CommonBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
