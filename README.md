@@ -7,8 +7,17 @@ Web service utilisé pour l'application foodsquare : Application de notation et
 de recommandation de restaurants.
 
 Web service basé sur Symphony2 (pattern MVC)
-1) Documentation
------------------
+
+## Présentation
+
+* [Google Présentation](https://docs.google.com/presentation/d/12rFdgN0MJj2qub8wANnTufOxT141CV3ejXnqRMVhoJg/edit?usp=sharing)
+
+## License
+
+* [Apache Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
+
+
+## Documentation
 
 CommonBundle : Bundle contenant tous les éléments nécessaire au fonctionnement 
 de l'application. (Controller, Entity, ...)
