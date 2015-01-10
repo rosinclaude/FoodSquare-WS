@@ -52,7 +52,8 @@ class UserController extends \FOS\RestBundle\Controller\FOSRestController
             "user"=>$user,
             "rates"=>  count($rates),
             "comments"=>count($comments),
-            "last_connection"=>$user->getLastConnection()->format('d M Y à H:i')
+            "last_connection"=>$user->getLastConnection()->format('d M Y à H:i'),
+            "expiredAt"=>$user->getLastConnection()->getTimestamp()
         );
     }
    
@@ -155,7 +156,8 @@ class UserController extends \FOS\RestBundle\Controller\FOSRestController
                             ),
                       "rates"=>  count($rates),
                       "comments"=>count($comments),
-                      "last_connection"=>$user->getLastConnection()->format('d M Y à H:i')
+                      "last_connection"=>$user->getLastConnection()->format('d M Y à H:i'),
+                      "expiredAt"=>$user->getLastConnection()->getTimestamp()
                   );
                 
                 
@@ -234,7 +236,8 @@ class UserController extends \FOS\RestBundle\Controller\FOSRestController
                             ),
                       "rates"=>  count($rates),
                       "comments"=>count($comments),
-                      "last_connection"=>$user->getLastConnection()->format('d M Y à H:i')
+                      "last_connection"=>$user->getLastConnection()->format('d M Y à H:i'),
+                      "expiredAt"=>$user->getLastConnection()->getTimestamp()
                   );
                 
                 
