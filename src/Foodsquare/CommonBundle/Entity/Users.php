@@ -106,6 +106,30 @@ class Users
      * @Expose
      */
     private $dateInscription;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="last_connection", type="datetime")
+     * @Expose
+     */
+    private $lastConnection;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="expire_at", type="datetime")
+     * @Expose
+     */
+    private $expireAt;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="expired", type="boolean")
+     * @Expose
+     */
+    private $expired = false;
 
     /**
      * @var string
@@ -257,6 +281,9 @@ class Users
     public function setToken($token)
     {
         $this->token = $token;
+        
+        $this->lastConnection = new \DateTime();
+        $this->expireAt = new \DateTime("+1 days");
 
         return $this;
     }
@@ -503,5 +530,81 @@ class Users
     public function getPin()
     {
         return $this->pin;
+    }
+
+    /**
+     * Set lastConnection
+     *
+     * @param \DateTime $lastConnection
+     * @return Users
+     */
+    public function setLastConnection($lastConnection)
+    {
+        $this->lastConnection = $lastConnection;
+
+        return $this;
+    }
+
+    /**
+     * Get lastConnection
+     *
+     * @return \DateTime 
+     */
+    public function getLastConnection()
+    {
+        return $this->lastConnection;
+    }
+
+    /**
+     * Set expireAt
+     *
+     * @param \DateTime $expireAt
+     * @return Users
+     */
+    public function setExpireAt($expireAt)
+    {
+        $this->expireAt = $expireAt;
+
+        return $this;
+    }
+
+    /**
+     * Get expireAt
+     *
+     * @return \DateTime 
+     */
+    public function getExpireAt()
+    {
+        return $this->expireAt;
+    }
+
+    /**
+     * Set expired
+     *
+     * @param boolean $expired
+     * @return Users
+     */
+    public function setExpired($expired)
+    {
+        if($this->expireAt<(new \DateTime()))
+            $this->expired = $true;
+        else
+            $this->expired = $expired;
+        
+
+        return $this;
+    }
+
+    /**
+     * Get expired
+     *
+     * @return boolean 
+     */
+    public function getExpired()
+    {
+        if($this->expireAt<(new \DateTime()))
+            $this->expired = true;
+        
+        return $this->expired;
     }
 }
