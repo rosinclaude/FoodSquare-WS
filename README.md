@@ -6,7 +6,7 @@ FoodSquare Webservice
 Web service utilisé pour l'application foodsquare : Application de notation et 
 de recommandation de restaurants.
 
-Web service basé sur Symphony2 (pattern MVC)
+Web service basé sur le framework PHP [Symphony2](http://symfony.com/)
 
 ## Présentation
 
