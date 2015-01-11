@@ -296,7 +296,7 @@ class Restaurant
      *
      * @param \Foodsquare\CommonBundle\Entity\Photo $photo
      */
-    public function removePhoto(\Foodsquare\CommonBundle\Entity\Voiture $photo)
+    public function removePhoto(\Foodsquare\CommonBundle\Entity\Photo $photo)
     {
         $this->gallerie->removeElement($photo);
     }
