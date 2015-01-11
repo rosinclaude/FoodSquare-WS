@@ -14,7 +14,6 @@ use Foodsquare\CommonBundle\Entity\Users;
 use Foodsquare\CommonBundle\Form\UsersInscriptionFBType;
 use Foodsquare\CommonBundle\Form\UsersInscriptionType;
 use Foodsquare\CommonBundle\Form\UsersType;
-use Foodsquare\CommonBundle\Form\VoitureType;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
