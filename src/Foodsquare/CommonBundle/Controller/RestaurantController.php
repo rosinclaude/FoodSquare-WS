@@ -97,7 +97,6 @@ class RestaurantController extends \FOS\RestBundle\Controller\FOSRestController
      * )
      */
     public function postRestaurantPhotoAction(Request $request){
-
         
         $em   = $this->getDoctrine()->getManager();
 
@@ -114,7 +113,7 @@ class RestaurantController extends \FOS\RestBundle\Controller\FOSRestController
         }
         
         $photo = new Photo();
-        $url = Photo::downloadImage($request->get('photo'), true);
+        $url = Photo::downloadImage($request->get('photo'), true, true);
         $photo->setUrl($url)
               ->setMiniature("thumbs/thumbs-".$url)
               ->setTitre($restaurant->getNom())
@@ -143,7 +142,6 @@ class RestaurantController extends \FOS\RestBundle\Controller\FOSRestController
 
         $em   = $this->getDoctrine()->getManager();
 
-        
         $user =   $em->getRepository('FoodsquareCommonBundle:Users')->findOneByToken($request->get('token'));
 
         if(!is_object($user)){
