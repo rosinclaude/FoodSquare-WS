@@ -2,6 +2,11 @@
 
 namespace Foodsquare\CommonBundle\Entity;
 
+
+use Guzzle\Http\EntityBody;
+use Aws\S3\S3Client;
+use Aws\Common\Enum\Region;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -170,10 +175,20 @@ class Photo
     * @access public
     * @return l'url de l'image dans les dossiers
     */
-   public static function downloadImage($url, $base64 = false) {	
+   public static function downloadImage($url, $base64 = false, $save_in_aws = false) {	
        
         $dir=__DIR__."/../Resources/public/images/restaurants/";
         $mini=__DIR__."/../Resources/public/images/restaurants/thumbs/";
+        
+        if($save_in_aws){
+            $aws = S3Client::factory(array(
+                "key"=>"AKIAIFAFSM7RO7KCS7XQ",
+                "secret"=>"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",
+                "region"=>  Region::US_EAST_1
+            ));
+        }else{
+            $aws = null;
+        }
         
         if(!$base64){
             $ch = curl_init();
@@ -187,21 +202,50 @@ class Photo
             else
                 $imgUrl=$url; 
 
-            $imgName = strtotime(date('Y-m-d H:i:s')).basename($imgUrl);
+            $path_parts = pathinfo($imgUrl);
+            $imgName = strtotime(date('Y-m-d H:i:s')).rand(100, 100000).".".$path_parts["extension"];
             $image_dest = $dir.$imgName;
-            copy($imgUrl, $image_dest);
+            
+            if($aws==null){
+                copy($imgUrl, $image_dest);
+            }else{
+                try {
+                    $resource = EntityBody::factory(file_get_contents($imgUrl));
+                    $aws->upload('foodsquare',"/restaurants/".$imgName, $resource, 'public-read');
+                } catch (S3Exception $e) {
+                    echo "There was an error uploading the file.\n";
+                }
+            }
         }else{
             $data = explode(',', $url);
             $entry = base64_decode(isset($data[1])?$data[1]:$url);
             $imgUrl = imagecreatefromstring($entry);
             $imgName = strtotime(date('Y-m-d H:i:s')).rand(100, 100000).".jpg";
             $image_dest = $dir.$imgName;
-            imagejpeg($imgUrl, $image_dest);
+            
+            if($aws==null){
+                imagejpeg($imgUrl, $image_dest);
+            }else{
+                try {
+                    ob_start();
+                    header('Content-Type: image/jpeg');
+                    imagejpeg($imgUrl);
+                    $imageFileContents = ob_get_contents();
+                    ob_end_clean();
+                    $ressource = EntityBody::factory($imageFileContents);
+                    $aws->upload('foodsquare',"restaurants/".$imgName, $ressource, 'public-read');
+                } catch (S3Exception $e) {
+                    echo "There was an error uploading the file.\n";
+                }
+            }
+            
             imagedestroy ( $imgUrl );
         }
         
-        $thumbs = $mini."thumbs-".$imgName;
-        Photo::recupMiniature($image_dest, $thumbs, 300, FALSE, TRUE);
+        if($aws==null)
+            Photo::recupMiniature($image_dest, $mini."thumbs-".$imgName, 200, FALSE, TRUE);
+        else
+            Photo::recupMiniature("https://s3.amazonaws.com/foodsquare/restaurants/".$imgName, "restaurants/thumbs/thumbs-".$imgName, 200, FALSE, TRUE, $aws);
 
         return $imgName;
 
@@ -217,13 +261,14 @@ class Photo
     *             "bottom","top" (si la photo est verticale) 
     *            ou n'importe quelle autre valeur pour le milieu.
     */  
-   public static function recupMiniature( $image_src , $image_dest = NULL , $max_size = 100, $expand = FALSE, $square = FALSE)
+   public static function recupMiniature( $image_src , $image_dest = NULL , $max_size = 100, $expand = FALSE, $square = FALSE, $aws = null)
    {
 
 
-               if( !file_exists($image_src) ) 
+               if( !file_exists($image_src)) 
                {
-                   return FALSE;
+                   //var_dump($image_src);
+                   //return FALSE;
 
                }
 
@@ -241,7 +286,16 @@ class Photo
                        // L'image est plus petite que max_size
                        if($image_dest)
                        {
-                               return copy($image_src, $image_dest);
+                               if($aws==null)
+                                    return copy($image_src, $image_dest);
+                               else{
+                                   try {
+                                        $resource = EntityBody::factory(file_get_contents($image_src));
+                                        $aws->upload('foodsquare', $image_dest, $resource, 'public-read');
+                                    } catch (S3Exception $e) {
+                                        echo "There was an error uploading the file.\n";
+                                    }
+                               }
                        }
                        else
                        {
@@ -335,7 +389,22 @@ class Photo
                if($image_dest)
                {
 
-                       $func($new_image, $image_dest);
+                        if($aws==null)
+                                    $func($new_image, $image_dest);
+                        else{
+                            try {
+                                ob_start();
+                                header('Content-Type: '. $type_mime);
+                                $func($new_image);
+                                $imageFileContents = ob_get_contents();
+                                ob_end_clean();
+                                 $ressource = EntityBody::factory($imageFileContents);
+                                 $aws->upload('foodsquare', $image_dest, $ressource, 'public-read');
+                             } catch (S3Exception $e) {
+                                 echo "There was an error uploading the file.\n";
+                             }
+                        }
+                       
                }
                else
                {
