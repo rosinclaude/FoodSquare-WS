@@ -101,7 +101,7 @@ class ImportRestaurantCommand extends ContainerAwareCommand{
 //                    $test = file_get_contents(str_replace("X_PHOTOREF_X",$p["photo_reference"] , $this->url_image));
 //                    echo "<pre>";var_dump($test);"</pre>";
                     $photo = new Photo();
-                    $url = Photo::downloadImage(str_replace("X_PHOTOREF_X",$p["photo_reference"] , $this->url_image));
+                    $url = Photo::downloadImage(str_replace("X_PHOTOREF_X",$p["photo_reference"] , $this->url_image),false,true);
                     $photo->setUrl($url)
                           ->setMiniature("thumbs/thumbs-".$url)
                           ->setTitre($rest["name"]." - Photo ".$i+1);
