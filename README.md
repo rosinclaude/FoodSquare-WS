@@ -30,3 +30,13 @@ pour des restaurants
 
 UserController : Controller gérant toutes fonctionnalités ayant traits aux utilisateurs 
 (création, mise à jour, etc ...)
+
+Plus d'infos : Consultés la Doc de l'API [https://foodsquare.herokuapp.com/api/doc/](https://foodsquare.herokuapp.com/api/doc/)
+
+## Bundles Utilisés
+
+* FosRestBundle [https://github.com/FriendsOfSymfony/FOSRest](https://github.com/FriendsOfSymfony/FOSRest)
+* JMS Serializer [https://github.com/schmittjoh/JMSSerializerBundle](https://github.com/schmittjoh/JMSSerializerBundle)
+* Nelmio API Doc [https://github.com/nelmio/NelmioApiDocBundle](https://github.com/nelmio/NelmioApiDocBundle)
+* Amazone WebServices [https://github.com/aws/aws-sdk-php](https://github.com/aws/aws-sdk-php)
+
