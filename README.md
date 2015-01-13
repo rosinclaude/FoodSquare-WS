@@ -31,7 +31,8 @@ pour des restaurants
 UserController : Controller gérant toutes fonctionnalités ayant traits aux utilisateurs 
 (création, mise à jour, etc ...)
 
-Plus d'infos : Consultés la Doc de l'API [https://foodsquare.herokuapp.com/api/doc/](https://foodsquare.herokuapp.com/api/doc/)
+### Plus d'infos
+Consulter la Doc de l'API :  [https://foodsquare.herokuapp.com/api/doc/](https://foodsquare.herokuapp.com/api/doc/)
 
 ## Bundles Utilisés
 
